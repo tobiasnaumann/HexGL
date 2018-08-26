@@ -92,7 +92,7 @@ html, body {
   -webkit-background-size: auto 50%;
   -ms-background-size: auto 50%;
   -o-background-size: auto 50%;
-  background-size: auto 50%;
+  background-size: auto 70vh;
   -webkit-transform: translateZ(0);
   -moz-transform: translateZ(0);
   -o-transform: translateZ(0);
@@ -216,6 +216,7 @@ html, body {
 }
 
 #step-5 #time {
+  padding-top: 20vh;
   font-size: 4em
 }
 

@@ -132,7 +132,7 @@ bkcore.hexgl.ShipControls = function(ctx)
 				else if(event.touches.length == 3)
 					ctx.restart();
 				// touch was on the right-hand side of the screen
-				else if (touch.clientX > (ctx.width / 2)) {
+				else if (touch.clientX > (event.touchArea.width / 2)) {
 					if (event.type === 'touchend')
 						self.key.forward = false;
 					else

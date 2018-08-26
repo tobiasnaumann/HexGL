@@ -3,7 +3,7 @@
 /*
   TouchController (stick + buttons) for touch devices
   Based on the touch demo by Seb Lee-Delisle <http://seb.ly/>
-  
+
   @class bkcore.controllers.TouchController
   @author Thibaut 'BKcore' Despoulain <http://bkcore.com>
  */
@@ -13,13 +13,13 @@
 
   TouchController = (function() {
     TouchController.isCompatible = function() {
-      return 'ontouchstart' in document.documentElement;
+      return true;
     };
 
 
     /*
       Creates a new TouchController
-    
+
       @param dom DOMElement The element that will listen to touch events
       @param stickMargin int The left margin in px for stick detection
       @param buttonCallback function Callback for non-stick touches
@@ -35,19 +35,27 @@
       this.stickPos = new Vec2(0, 0);
       this.stickStartPos = new Vec2(0, 0);
       this.stickVector = new Vec2(0, 0);
-      this.dom.addEventListener('touchstart', ((function(_this) {
+
+        hello.remoteEvents.on('hexgltouchstart', ((function(_this) {
         return function(e) {
-          return _this.touchStart(e);
+            console.log(e.parameters.originEvent);
+
+          return _this.touchStart(e.parameters.originEvent);
         };
       })(this)), false);
-      this.dom.addEventListener('touchmove', ((function(_this) {
+        hello.remoteEvents.on('hexgltouchmove', ((function(_this) {
         return function(e) {
-          return _this.touchMove(e);
+
+          console.log(e.parameters.originEvent);
+
+          return _this.touchMove(e.parameters.originEvent);
         };
       })(this)), false);
-      this.dom.addEventListener('touchend', ((function(_this) {
+        hello.remoteEvents.on('hexgltouchend', ((function(_this) {
         return function(e) {
-          return _this.touchEnd(e);
+            console.log(e.parameters.originEvent);
+
+          return _this.touchEnd(e.parameters.originEvent);
         };
       })(this)), false);
     }
@@ -65,7 +73,7 @@
       _ref = event.changedTouches;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         touch = _ref[_i];
-        if (this.stickID < 0 && touch.clientX < this.stickMargin) {
+        if (this.stickID < 0 && touch.clientX < event.touchArea.width/2) {
           this.stickID = touch.identifier;
           this.stickStartPos.set(touch.clientX, touch.clientY);
           this.stickPos.copy(this.stickStartPos);
@@ -88,14 +96,13 @@
 
     TouchController.prototype.touchMove = function(event) {
       var touch, _i, _len, _ref;
-      event.preventDefault();
       if (!this.active) {
         return;
       }
       _ref = event.changedTouches;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         touch = _ref[_i];
-        if (this.stickID === touch.identifier && touch.clientX < this.stickMargin) {
+        if (this.stickID === touch.identifier && touch.clientX < event.touchArea.width/2) {
           this.stickPos.set(touch.clientX, touch.clientY);
           this.stickVector.copy(this.stickPos).substract(this.stickStartPos);
           break;
