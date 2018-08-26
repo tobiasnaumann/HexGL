@@ -80,7 +80,7 @@ var hexGlStartGame = (function() {
           if ($('step-1').offsetParent !== null) {
               $('step-1').style.display = 'none';
               $('step-2').style.display = 'block';
-              return $('step-2').style.backgroundImage = "url(css/help-" + 1 + ".png)";
+              return $('step-2').style.backgroundImage = "url(hexgl/css/help-" + 1 + ".png)";
           }
       });
   }
